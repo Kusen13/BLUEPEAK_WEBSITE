@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bluepeak Builders Corp. — Building Reliability, One Structure at a Time</title>
+  <meta name="description"
+    content="Bluepeak Builders Corp. is a premier construction company delivering reliable, high-quality commercial, residential, and industrial building solutions. Request a free quote today.">
+  <meta name="keywords"
+    content="construction company, builders, commercial construction, residential building, industrial construction, reliable builders">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Favicon (using logo) -->
+  <link rel="icon" type="image/png" href="images/BLUEPEAK LANDSCAPE LOGO.png">
+</head>
+
+<body>
+
+  <!-- ============ NAVIGATION ============ -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#home" class="navbar-logo">
+        <img src="images/BLUEPEAK LANDSCAPE LOGO.png" alt="Bluepeak Builders Corp. Logo">
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-cta"><a href="contact.html" class="btn btn-primary">Request a Quote</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============ HERO SECTION ============ -->
+  <section class="hero blueprint-bg" id="home">
+    <div class="hero-bg">
+      <img src="images/hero-construction.png" alt="Construction site at golden hour with steel framework and cranes">
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-content">
+      <h1 class="hero-title">
+        We <span>Plan,</span><br>
+        We <span>Build Dreams Fulfilled</span>
+      </h1>
+      
+      <!-- Scroll Down Indicator -->
+      <a href="#projects" class="scroll-down-btn" aria-label="Scroll down to projects">
+        <span class="mouse">
+          <span class="wheel"></span>
+        </span>
+        <span class="arrow-down"></span>
+      </a>
+    </div>
+  </section>
+
+
+
+  <!-- ============ PROJECTS SECTION ============ -->
+  <section class="projects blueprint-bg" id="projects">
+    <div class="container">
+      <div class="projects-header reveal">
+        <!-- <div class="section-label light">Our Portfolio</div> -->
+        <h2 class="section-title light">Completed Projects</h2>
+        <p class="section-subtitle light">Explore our transformations. Check the before-and-after view, built timelines,
+          and summaries of our major construction projects.</p>
+      </div>
+
+      <div class="projects-filter reveal">
+        <button class="filter-btn active" data-filter="all">All Transformations</button>
+        <button class="filter-btn" data-filter="commercial">Commercial</button>
+        <button class="filter-btn" data-filter="residential">Residential</button>
+        <button class="filter-btn" data-filter="renovation">Renovation</button>
+      </div>
+
+      <div class="projects-grid stagger-children">
+        <!-- 
+          =========================================
+          MANUAL EDIT GUIDE: HOW TO EDIT PROJECTS
+          =========================================
+          Each project card uses the "project-card-ba" wrapper class.
+          To update a project:
+          1. Set the correct filter category on data-category="..." (e.g. "commercial", "residential", "renovation").
+          2. Inside the "project-ba-media" block, replace the image paths in src="..." (Before and After image paths).
+          3. Set the project tag (e.g. Commercial, Residential, Renovation) inside <span class="project-tag">...</span>.
+          4. Update the build duration inside <div class="project-ba-timeline">...</div>.
+          5. Update the project title in <h3>...</h3> and summary inside <p>...</p>.
+          
+          HOW TO ADD MORE PROJECTS:
+          Copy a complete <div class="project-card-ba" data-category="...">...</div> block and paste it below.
+        -->
+
+        <!-- Project 1 (Commercial) -->
+        <div class="project-card-ba" data-category="commercial">
+          <div class="project-ba-media">
+            <span class="project-ba-label before">Before</span>
+            <img src="images/hero-construction.png" alt="Meridian Business Tower Site Under Construction">
+            <span class="project-ba-label after">After</span>
+            <img src="images/project-commercial.png" alt="Completed Meridian Business Tower Glass Facade">
+          </div>
+          <div class="project-ba-content">
+            <span class="project-tag">Commercial</span>
+            <div class="project-ba-timeline">Jan 2024 – Dec 2025 (24 Months)</div>
+            <h3>Meridian Business Tower</h3>
+            <p>Constructed a state-of-the-art 24-story commercial office building, delivering premium workspace and
+              advanced building management systems.</p>
+          </div>
+        </div>
+
+        <!-- Project 2 (Residential) -->
+        <div class="project-card-ba" data-category="residential">
+          <div class="project-ba-media">
+            <span class="project-ba-label before">Before</span>
+            <img src="images/hero-construction.png" alt="Crestwood Custom Estate Earthwork phase">
+            <span class="project-ba-label after">After</span>
+            <img src="images/project-residential.png" alt="Completed Crestwood Luxury Custom Estate">
+          </div>
+          <div class="project-ba-content">
+            <span class="project-tag">Residential</span>
+            <div class="project-ba-timeline">Mar 2025 – Oct 2025 (7 Months)</div>
+            <h3>Crestwood Custom Estate</h3>
+            <p>Crafted a high-end, contemporary 6,500 sq ft residential estate utilizing energy-efficient glass, stone,
+              and heavy timber accents.</p>
+          </div>
+        </div>
+
+        <!-- Project 3 (Renovation) -->
+        <div class="project-card-ba" data-category="renovation">
+          <div class="project-ba-media">
+            <span class="project-ba-label before">Before</span>
+            <img src="images/project-industrial.png" alt="Vintage Historic Warehouse Interior Structure">
+            <span class="project-ba-label after">After</span>
+            <img src="images/project-renovation.png" alt="Completed Heritage Plaza Modern Restored Office Interior">
+          </div>
+          <div class="project-ba-content">
+            <span class="project-tag">Renovation</span>
+            <div class="project-ba-timeline">Jun 2025 – Feb 2026 (8 Months)</div>
+            <h3>Heritage Plaza Renovation</h3>
+            <p>Completed a complete interior restoration and structural modernization, converting an industrial
+              warehouse structure into design-forward workspaces.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============ TESTIMONIALS SECTION ============ -->
+  <section class="testimonials blueprint-bg-light" id="testimonials">
+    <div class="container">
+      <div class="testimonials-header reveal">
+        <!-- <div class="section-label">Client Stories</div> -->
+        <h2 class="section-title">What Our Clients Say</h2>
+        <p class="section-subtitle">Read from the clients who trust Bluepeak Builders Corp. to bring their vision to
+          life.</p>
+      </div>
+
+      <div class="testimonials-slider-container">
+        <div class="testimonial-slides">
+          <!-- 
+            =========================================
+            MANUAL EDIT GUIDE: HOW TO EDIT TESTIMONIALS
+            =========================================
+            To update the testimonial slide below:
+            1. Replace the text inside <p class="testimonial-text">"Your testimonial text..."</p>
+            2. To change the star rating: The list has five <svg> elements representing stars. If you want 4 stars, remove one of the <svg> blocks.
+            3. Replace the text in <h4>Client Name</h4> and <p>Client Title, Company</p>
+            4. Update the avatar initials inside <div class="testimonial-avatar">XX</div> (e.g. RC for Robert Chen)
+            
+            HOW TO ADD NEW TESTIMONIALS:
+            Copy the entire <div class="testimonial-slide">...</div> block below.
+            Paste it directly below the first slide.
+            IMPORTANT: Remove the "active" class from any new slides you paste. Only the FIRST slide should have "testimonial-slide active". The others must be "testimonial-slide".
+            
+            HOW TO UPDATE DOTS:
+            Look below under <div class="testimonial-dots">. Every dot corresponds to a slide.
+            If you have only 1 slide, keep only 1 dot:
+            <button class="testimonial-dot active" data-slide="0"></button>
+            If you add a second slide, add a second dot below it:
+            <button class="testimonial-dot" data-slide="1"></button>
+          -->
+
+          <!-- Slide 1 -->
+          <div class="testimonial-slide active">
+            <div class="testimonial-card">
+              <div class="testimonial-quote-icon">“</div>
+              <p class="testimonial-text">"Bluepeak Builders delivered our project on time and exactly within our target
+                budget. Their focus on structural durability, site safety, and clear communication made the construction
+                process extremely smooth."</p>
+              <div class="testimonial-stars">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              </div>
+              <div class="testimonial-author">
+                <div class="testimonial-avatar">RC</div>
+                <div class="testimonial-author-info">
+                  <h4>Robert Chen</h4>
+                  <p>Property Owner</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-controls">
+          <div class="testimonial-dots">
+            <button class="testimonial-dot active" data-slide="0"></button>
+            <!-- If you add more slides, add more dots here as described in the instructions above -->
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="testimonial-arrow-btn prev-btn" aria-label="Previous review">←</button>
+            <button class="testimonial-arrow-btn next-btn" aria-label="Next review">→</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer monolith-footer-bg" id="footer">
+    <div class="footer-overlay"></div>
+    <div class="container footer-content-wrapper">
+      <h2 class="footer-title-large">CONTACT US</h2>
+      <div class="footer-details-wrapper">
+        <p><strong>Address:</strong> 8 Nicanor Don Manuel, Quezon City</p>
+        <p><strong>Email Address:</strong> bluepeakbuilderscorporation@gmail.com</p>
+        <p><strong>Contact Number:</strong> 09088515155</p>
+      </div>
+      <div class="footer-social-wrapper">
+        <a href="https://facebook.com" class="social-icon-fb" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M9 8H7v3h2v9h3v-9h3.625L16 8h-4V6.5c0-.828.672-1 1-1h3V2h-3c-3.18 0-4 1.82-4 4V8z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom-bar">
+      <div class="container footer-bottom-inner">
+        <p class="copyright-text">Copyright &copy; 2026 Bluepeak Builders Corporation. All rights reserved.</p>
+        <p class="developer-text">Developed by: Angelo Dela cruz</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
+  </button>
+
+  <!-- ============ JAVASCRIPT ============ -->
+  <script src="script.js"></script>
+</body>
+
+</html>
