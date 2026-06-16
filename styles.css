@@ -26,8 +26,8 @@
   /* High-Contrast Accents */
   --accent-cyan: #00e5ff;
   --accent-blue: #0066ff;
-  --accent-orange: #ff5500;
-  /* Vibrant construction orange */
+  --accent-red: #e02424;
+  /* Vibrant construction red */
   --accent-yellow: #ffcc00;
   /* Safety yellow */
 
@@ -96,13 +96,13 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--accent-orange);
+  background: var(--accent-red);
   border: 2px solid var(--navy-900);
   border-radius: var(--radius-geometric);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #c45008;
+  background: #b81414;
 }
 
 body {
@@ -148,7 +148,7 @@ a {
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--accent-orange);
+  color: var(--accent-red);
   margin-bottom: 24px;
 }
 
@@ -200,9 +200,9 @@ a {
 }
 
 .btn-primary {
-  background: var(--accent-orange);
+  background: var(--accent-red);
   color: #fff;
-  border-color: var(--accent-orange);
+  border-color: var(--accent-red);
   box-shadow: 6px 6px 0px var(--navy-900);
 }
 
@@ -341,9 +341,9 @@ a {
 
 .nav-cta .btn:hover {
   transform: none;
-  background: var(--accent-orange);
+  background: var(--accent-red);
   color: #fff;
-  border-color: var(--accent-orange);
+  border-color: var(--accent-red);
 }
 
 /* Mobile Hamburger */
@@ -1251,7 +1251,7 @@ a {
 }
 
 .testimonial-dot.active {
-  background: var(--accent-orange);
+  background: var(--accent-red);
   width: 24px;
 }
 
@@ -1541,7 +1541,7 @@ a {
 .social-icon-fb {
   width: 48px;
   height: 48px;
-  background: var(--accent-orange);
+  background: var(--accent-red);
   color: #fff;
   border-radius: 50%;
   display: inline-flex;
@@ -1551,9 +1551,9 @@ a {
 }
 
 .social-icon-fb:hover {
-  background: #c45008;
+  background: #b81414;
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(196, 80, 8, 0.4);
+  box-shadow: 0 8px 20px rgba(184, 20, 20, 0.4);
 }
 
 .footer-bottom-bar {
@@ -1719,7 +1719,7 @@ a {
   content: '▪';
   position: absolute;
   left: 0;
-  color: var(--accent-orange);
+  color: var(--accent-red);
   font-size: 1.1rem;
   top: -2px;
 }
@@ -1731,7 +1731,7 @@ a {
   right: 40px;
   width: 52px;
   height: 52px;
-  background: var(--accent-orange);
+  background: var(--accent-red);
   color: #fff;
   border: none;
   display: flex;
