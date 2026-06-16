@@ -1478,7 +1478,7 @@ a {
 /* ---------- FOOTER ---------- */
 .footer.monolith-footer-bg {
   position: relative;
-  background-image: linear-gradient(rgba(14, 18, 26, 0.92), rgba(14, 18, 26, 0.92)), url('images/hero-construction.png');
+  background-image: linear-gradient(rgba(14, 18, 26, 0.92), rgba(14, 18, 26, 0.92)), url('images/bluepeak-office.JPG');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -1754,8 +1754,34 @@ a {
 }
 
 .back-to-top:hover {
-  background: #c45008;
+  background: #b81414;
   transform: translateY(-4px);
+}
+
+/* ---------- DEDICATED TESTIMONIALS PAGE ---------- */
+.testimonials-page-content {
+  padding: 100px 0;
+}
+
+.testimonials-page-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.testimonial-page-card {
+  background: #fff;
+  border: 1px solid var(--steel-100);
+  border-top: 4px solid var(--accent-red);
+  padding: 40px;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.04);
+  transition: all var(--transition-base);
+}
+
+.testimonial-page-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(224, 36, 36, 0.08);
+  border-color: var(--accent-red);
 }
 
 /* ---------- SCROLL REVEALS ---------- */
@@ -1832,7 +1858,8 @@ a {
 
   .services-grid,
   .projects-grid,
-  .testimonials-grid {
+  .testimonials-grid,
+  .testimonials-page-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -1917,6 +1944,7 @@ a {
   .services-grid,
   .projects-grid,
   .testimonials-grid,
+  .testimonials-page-grid,
   .counter-grid,
   .about-values-grid,
   .services-detailed-grid,
