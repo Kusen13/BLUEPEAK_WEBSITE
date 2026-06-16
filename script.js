@@ -234,9 +234,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (targetElement) {
         e.preventDefault();
         
-        // The scrolled navbar height is roughly 66px. We use 80px to provide a clean, 
-        // comfortable buffer space so the section content is never cut off.
-        const headerOffset = 80;
+        // To make the next section display perfectly fullscreen behind the transparent/translucent
+        // navbar without showing any remaining sliver of the previous section, we scroll flush to 0.
+        const headerOffset = 0;
         const elementPosition = targetElement.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
         
