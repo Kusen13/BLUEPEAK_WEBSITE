@@ -225,9 +225,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ─── Smooth Scroll for All Anchor Links ───────────────────
-  // Note: We rely on native browser smooth scrolling via CSS (html { scroll-behavior: smooth; })
-  // and scroll-padding-top to avoid header offset issues. Any custom scrollIntoView calls
-  // bypassed scroll-padding-top, causing section elements to look cut off under the fixed navbar.
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        e.preventDefault();
+        
+        // The scrolled navbar height is roughly 66px. We use 80px to provide a clean, 
+        // comfortable buffer space so the section content is never cut off.
+        const headerOffset = 80;
+        const elementPosition = targetElement.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
 
 
   // ─── Parallax Effect on Hero ──────────────────────────────
