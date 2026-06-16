@@ -225,16 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ─── Smooth Scroll for All Anchor Links ───────────────────
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const targetId = this.getAttribute('href');
-      const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
+  // Note: We rely on native browser smooth scrolling via CSS (html { scroll-behavior: smooth; })
+  // and scroll-padding-top to avoid header offset issues. Any custom scrollIntoView calls
+  // bypassed scroll-padding-top, causing section elements to look cut off under the fixed navbar.
+
 
   // ─── Parallax Effect on Hero ──────────────────────────────
   const heroBg = document.querySelector('.hero-bg img');
