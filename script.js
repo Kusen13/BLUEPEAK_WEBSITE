@@ -181,28 +181,74 @@ document.addEventListener('DOMContentLoaded', () => {
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-
-      // Collect form data
-      const formData = new FormData(contactForm);
-      const data = Object.fromEntries(formData);
-
-      // Simple validation feedback
+ 
       const submitBtn = contactForm.querySelector('.form-submit .btn');
       const originalContent = submitBtn.innerHTML;
-
+ 
+      // Disable button and show sending state
+      submitBtn.disabled = true;
       submitBtn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Quote Request Sent!
+        <svg class="spinner" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+        Sending...
       `;
-      submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-      submitBtn.style.boxShadow = '0 4px 20px rgba(16, 185, 129, 0.4)';
-
-      setTimeout(() => {
-        submitBtn.innerHTML = originalContent;
-        submitBtn.style.background = '';
-        submitBtn.style.boxShadow = '';
-        contactForm.reset();
-      }, 3000);
+ 
+      // Collect form data
+      const formData = new FormData(contactForm);
+ 
+      // Replace this with your Google Web App URL after deploying the script
+      const GOOGLE_SHEET_APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw822b6So0d9BL3v6s4vcHIQMR_DZeWATMpM89SNPELzsls3CdAUZwbMeUTezIpysG0/exec";
+ 
+      if (!GOOGLE_SHEET_APP_SCRIPT_URL || GOOGLE_SHEET_APP_SCRIPT_URL.includes("YOUR_GOOGLE_APPS_SCRIPT")) {
+        // Fallback/Simulated submission for testing if the sheet URL is not yet configured
+        setTimeout(() => {
+          submitBtn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Quote Request Sent! (Simulated)
+          `;
+          submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+          submitBtn.style.boxShadow = '0 4px 20px rgba(16, 185, 129, 0.4)';
+          contactForm.reset();
+          
+          setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalContent;
+            submitBtn.style.background = '';
+            submitBtn.style.boxShadow = '';
+          }, 3000);
+        }, 1500);
+        return;
+      }
+ 
+      fetch(GOOGLE_SHEET_APP_SCRIPT_URL, {
+        method: "POST",
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          submitBtn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Quote Request Sent!
+          `;
+          submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+          submitBtn.style.boxShadow = '0 4px 20px rgba(16, 185, 129, 0.4)';
+          contactForm.reset();
+        } else {
+          throw new Error('Form submission failed');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        submitBtn.innerHTML = "Error. Try Again";
+        submitBtn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+      })
+      .finally(() => {
+        setTimeout(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalContent;
+          submitBtn.style.background = '';
+          submitBtn.style.boxShadow = '';
+        }, 3000);
+      });
     });
   }
 
