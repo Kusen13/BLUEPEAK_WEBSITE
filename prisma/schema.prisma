@@ -1,0 +1,116 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id             Int            @id @default(autoincrement())
+  title          String
+  category       String
+  beforeImage    String?
+  afterImage     String?
+  description    String?        @db.Text
+  location       String?
+  startDate      String?
+  completionDate String?
+  duration       String?
+  clientName     String?
+  status         String         @default("Completed")
+  order          Int            @default(0)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  images         ProjectImage[]
+}
+
+model ProjectImage {
+  id        Int     @id @default(autoincrement())
+  projectId Int
+  imageUrl  String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Service {
+  id          Int      @id @default(autoincrement())
+  name        String
+  icon        String
+  description String   @db.Text
+  imageUrl    String?
+  isFeatured  Boolean  @default(false)
+  bullets     Json?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Testimonial {
+  id          Int      @id @default(autoincrement())
+  author      String
+  position    String
+  rating      Int      @default(5)
+  quote       String   @db.Text
+  projectLink String?
+  imageUrl    String?
+  isApproved  Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model QuoteRequest {
+  id          Int      @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  email       String
+  phone       String
+  projectType String
+  location    String
+  budget      String
+  details     String   @db.Text
+  status      String   @default("New")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model WebsiteSettings {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Announcement {
+  id        Int      @id @default(autoincrement())
+  message   String   @db.Text
+  link      String?
+  isActive  Boolean  @default(true)
+  startDate DateTime?
+  endDate   DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BlogPost {
+  id            Int      @id @default(autoincrement())
+  title         String
+  slug          String   @unique
+  content       String   @db.Text
+  excerpt       String?  @db.Text
+  featuredImage String?
+  category      String?
+  published     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

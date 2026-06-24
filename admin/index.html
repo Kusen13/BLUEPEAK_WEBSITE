@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Bluepeak Builders Corp.</title>
+  <link rel="stylesheet" href="admin.css">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- ============ LOGIN CONTAINER ============ -->
+  <div id="loginContainer" class="login-wrapper">
+    <div class="login-card">
+      <div class="login-header">
+        <img src="../images/BLUEPEAK LANDSCAPE LOGO.png" alt="Bluepeak Logo" class="login-logo">
+        <h2>CMS Administration</h2>
+        <p>Please enter your credentials to login</p>
+      </div>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username"><i class="fa fa-user"></i> Username</label>
+          <input type="text" id="username" placeholder="Enter username" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="password"><i class="fa fa-lock"></i> Password</label>
+          <input type="password" id="password" placeholder="Enter password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-login">Login <i class="fa fa-sign-in-alt"></i></button>
+      </form>
+      <div id="loginError" class="login-error-msg"></div>
+    </div>
+  </div>
+
+  <!-- ============ MAIN DASHBOARD CONTAINER ============ -->
+  <div id="dashboardContainer" class="dashboard-wrapper hidden">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="../images/BLUEPEAK LANDSCAPE LOGO.png" alt="Bluepeak Logo">
+        <span>Admin Panel</span>
+      </div>
+      <nav class="sidebar-menu">
+        <a href="#overview" class="menu-item active" data-tab="overview"><i class="fa fa-chart-line"></i> Dashboard</a>
+        <a href="#settings" class="menu-item" data-tab="settings"><i class="fa fa-cog"></i> Hero & Settings</a>
+        <a href="#projects" class="menu-item" data-tab="projects"><i class="fa fa-tasks"></i> Project Manager</a>
+        <a href="#services" class="menu-item" data-tab="services"><i class="fa fa-cubes"></i> Services Manager</a>
+        <a href="#testimonials" class="menu-item" data-tab="testimonials"><i class="fa fa-comments"></i> Testimonials</a>
+        <a href="#quotes" class="menu-item" data-tab="quotes"><i class="fa fa-file-invoice-dollar"></i> Quote Requests</a>
+        <a href="#media" class="menu-item" data-tab="media"><i class="fa fa-images"></i> Media Library</a>
+        <a href="#announcements" class="menu-item" data-tab="announcements"><i class="fa fa-bullhorn"></i> Announcements</a>
+        <a href="#blog" class="menu-item" data-tab="blog"><i class="fa fa-blog"></i> Blog System</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <i class="fa fa-user-circle"></i>
+          <span id="currentUser">Admin</span>
+        </div>
+        <button id="logoutBtn" class="btn-logout"><i class="fa fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <h1 id="pageTitle">Dashboard Overview</h1>
+        <div class="topbar-actions">
+          <button id="changePassBtn" class="btn btn-secondary"><i class="fa fa-key"></i> Change Password</button>
+          <a href="/" target="_blank" class="btn btn-primary"><i class="fa fa-external-link-alt"></i> View Website</a>
+        </div>
+      </header>
+
+      <!-- TAB 1: OVERVIEW -->
+      <section id="tab-overview" class="tab-panel active">
+        <!-- Stats Cards Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-file-contract"></i></div>
+            <div class="stat-details">
+              <h3 id="statQuotes">0</h3>
+              <p>Quote Requests</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-project-diagram"></i></div>
+            <div class="stat-details">
+              <h3 id="statProjects">0</h3>
+              <p>Total Projects</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-comments"></i></div>
+            <div class="stat-details">
+              <h3 id="statTestimonials">0</h3>
+              <p>Testimonials</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-users"></i></div>
+            <div class="stat-details">
+              <h3 id="statVisitors">142</h3>
+              <p>Website Visitors</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activities / Quotes -->
+        <div class="dashboard-grid">
+          <div class="grid-card">
+            <div class="card-header">
+              <h2>Recent Quote Requests</h2>
+              <a href="#quotes" onclick="switchTab('quotes')" class="view-all">View All</a>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Client</th>
+                    <th>Project Type</th>
+                    <th>Budget</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody id="recentQuotesList">
+                  <tr>
+                    <td colspan="5" class="text-center text-muted">No recent quote requests found.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class="grid-card">
+            <div class="card-header">
+              <h2>Quick Actions</h2>
+            </div>
+            <div class="quick-actions-list">
+              <button onclick="openProjectModal()" class="action-item"><i class="fa fa-plus-circle"></i> Add New Project</button>
+              <button onclick="openServiceModal()" class="action-item"><i class="fa fa-plus-circle"></i> Add New Service</button>
+              <button onclick="switchTab('settings')" class="action-item"><i class="fa fa-edit"></i> Edit Hero Slogan</button>
+              <button onclick="switchTab('announcements')" class="action-item"><i class="fa fa-bullhorn"></i> Toggle Announcement</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: HERO & SETTINGS -->
+      <section id="tab-settings" class="tab-panel hidden">
+        <form id="settingsForm" class="settings-form">
+          <div class="section-title">Hero Banner Section</div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="set_hero_headline_line1">Hero Headline - Line 1</label>
+              <input type="text" id="set_hero_headline_line1" required>
+            </div>
+            <div class="form-group col-6">
+              <label for="set_hero_headline_line2">Hero Headline - Line 2</label>
+              <input type="text" id="set_hero_headline_line2" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="set_hero_subheadline">Hero Subheadline</label>
+              <textarea id="set_hero_subheadline" rows="2" required></textarea>
+            </div>
+          </div>
+
+          <div class="section-title">Footer & Contact Information</div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="set_contact_email">Email Address</label>
+              <input type="email" id="set_contact_email" required>
+            </div>
+            <div class="form-group col-6">
+              <label for="set_contact_phone">Contact Number</label>
+              <input type="text" id="set_contact_phone" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-12">
+              <label for="set_contact_address">Company Physical Address</label>
+              <input type="text" id="set_contact_address" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="set_social_facebook">Facebook Page URL</label>
+              <input type="url" id="set_social_facebook" required>
+            </div>
+            <div class="form-group col-6">
+              <label for="set_developer_name">Developer Name / Credit</label>
+              <input type="text" id="set_developer_name" required>
+            </div>
+          </div>
+
+          <div class="section-title">Home Page Statistics Counters</div>
+          <div class="form-row">
+            <div class="form-group col-4">
+              <label for="set_stats_projects_count">Completed Projects Count</label>
+              <input type="text" id="set_stats_projects_count" required>
+            </div>
+            <div class="form-group col-4">
+              <label for="set_stats_clients_count">Clients Served</label>
+              <input type="text" id="set_stats_clients_count" required>
+            </div>
+            <div class="form-group col-4">
+              <label for="set_stats_experience_years">Years Experience</label>
+              <input type="text" id="set_stats_experience_years" required>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save Settings</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- TAB 3: PROJECT MANAGER -->
+      <section id="tab-projects" class="tab-panel hidden">
+        <div class="panel-header">
+          <h2>Manage Showcase Projects</h2>
+          <button onclick="openProjectModal()" class="btn btn-primary"><i class="fa fa-plus"></i> Add Showcase Project</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Timeline</th>
+                <th>Before/After Images</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="projectsListTable">
+              <tr>
+                <td colspan="5" class="text-center text-muted">Loading projects...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 4: SERVICES MANAGER -->
+      <section id="tab-services" class="tab-panel hidden">
+        <div class="panel-header">
+          <h2>Manage Corporate Services</h2>
+          <button onclick="openServiceModal()" class="btn btn-primary"><i class="fa fa-plus"></i> Add Service Card</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Icon</th>
+                <th>Service Name</th>
+                <th>Description</th>
+                <th>Featured</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="servicesListTable">
+              <tr>
+                <td colspan="5" class="text-center text-muted">Loading services...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 5: TESTIMONIALS -->
+      <section id="tab-testimonials" class="tab-panel hidden">
+        <div class="panel-header">
+          <h2>Client Testimonials</h2>
+          <button onclick="openTestimonialModal()" class="btn btn-primary"><i class="fa fa-plus"></i> Add Testimonial</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Client Author</th>
+                <th>Position/Role</th>
+                <th>Rating</th>
+                <th>Quote Excerpt</th>
+                <th>Approved</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="testimonialsListTable">
+              <tr>
+                <td colspan="6" class="text-center text-muted">Loading testimonials...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 6: QUOTE REQUESTS -->
+      <section id="tab-quotes" class="tab-panel hidden">
+        <div class="panel-header">
+          <h2>Client Inquiries & Quote Submissions</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Client Name</th>
+                <th>Email & Phone</th>
+                <th>Project Type & Location</th>
+                <th>Budget (₱)</th>
+                <th>Message Details</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="quotesListTable">
+              <tr>
+                <td colspan="7" class="text-center text-muted">Loading quote requests...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 7: MEDIA LIBRARY -->
+      <section id="tab-media" class="tab-panel hidden">
+        <div class="panel-header">
+          <h2>Media & Image Uploads</h2>
+          <form id="mediaUploadForm" style="display: flex; gap: 10px; align-items: center;">
+            <input type="file" id="mediaFileInput" accept="image/*" required>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-upload"></i> Upload Image</button>
+          </form>
+        </div>
+        <div class="media-grid" id="mediaLibraryGrid">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- TAB 8: ANNOUNCEMENTS -->
+      <section id="tab-announcements" class="tab-panel hidden">
+        <div class="panel-header">
+          <h2>Manage System Announcements</h2>
+          <button onclick="openAnnouncementModal()" class="btn btn-primary"><i class="fa fa-plus"></i> Create Announcement</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Announcement Banner Message</th>
+                <th>Link (Optional)</th>
+                <th>Active Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="announcementsListTable">
+              <tr>
+                <td colspan="4" class="text-center text-muted">Loading announcements...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TAB 9: BLOG SYSTEM -->
+      <section id="tab-blog" class="tab-panel hidden">
+        <div class="panel-header">
+          <h2>Blog & News Articles</h2>
+          <button onclick="openBlogModal()" class="btn btn-primary"><i class="fa fa-plus"></i> Write Article</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Featured Image</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="blogListTable">
+              <tr>
+                <td colspan="6" class="text-center text-muted">Loading blog posts...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ============ MODALS ============ -->
+
+  <!-- Change Password Modal -->
+  <div id="changePassModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Change Admin Password</h2>
+        <span class="close-modal" onclick="closeModal('changePassModal')">&times;</span>
+      </div>
+      <form id="changePasswordForm">
+        <div class="form-group">
+          <label for="currentPassword">Current Password</label>
+          <input type="password" id="currentPassword" required>
+        </div>
+        <div class="form-group">
+          <label for="newPassword">New Password</label>
+          <input type="password" id="newPassword" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('changePassModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Project Modal -->
+  <div id="projectModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="projectModalTitle">Add Project</h2>
+        <span class="close-modal" onclick="closeModal('projectModal')">&times;</span>
+      </div>
+      <form id="projectForm" enctype="multipart/form-data">
+        <input type="hidden" id="projId">
+        <div class="form-group">
+          <label for="projTitle">Project Title</label>
+          <input type="text" id="projTitle" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-6">
+            <label for="projCategory">Category</label>
+            <select id="projCategory">
+              <option value="commercial">Commercial</option>
+              <option value="residential">Residential</option>
+              <option value="renovation">Renovation</option>
+              <option value="infrastructure">Infrastructure</option>
+            </select>
+          </div>
+          <div class="form-group col-6">
+            <label for="projStatus">Status</label>
+            <select id="projStatus">
+              <option value="Completed">Completed</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Planning">Planning</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-12">
+            <label for="projDuration">Timeline / Duration Text</label>
+            <input type="text" id="projDuration" placeholder="e.g. Jan 2025 - Dec 2025 (12 Months)" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-6">
+            <label for="projBeforeFile">Before Image (Upload)</label>
+            <input type="file" id="projBeforeFile" accept="image/*">
+            <input type="text" id="projBeforePath" placeholder="Or enter image URL path">
+          </div>
+          <div class="form-group col-6">
+            <label for="projAfterFile">After Image (Upload)</label>
+            <input type="file" id="projAfterFile" accept="image/*">
+            <input type="text" id="projAfterPath" placeholder="Or enter image URL path">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="projDescription">Project Description</label>
+          <textarea id="projDescription" rows="3" required></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-6">
+            <label for="projLocation">Location</label>
+            <input type="text" id="projLocation">
+          </div>
+          <div class="form-group col-6">
+            <label for="projClient">Client Name</label>
+            <input type="text" id="projClient">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('projectModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Service Modal -->
+  <div id="serviceModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="serviceModalTitle">Add Service</h2>
+        <span class="close-modal" onclick="closeModal('serviceModal')">&times;</span>
+      </div>
+      <form id="serviceForm">
+        <input type="hidden" id="srvId">
+        <div class="form-group">
+          <label for="srvName">Service Name</label>
+          <input type="text" id="srvName" required>
+        </div>
+        <div class="form-group">
+          <label for="srvIcon">Icon Class (FontAwesome / SVG)</label>
+          <input type="text" id="srvIcon" placeholder="e.g. fas fa-cubes" required>
+        </div>
+        <div class="form-group">
+          <label for="srvDescription">Description Text</label>
+          <textarea id="srvDescription" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="srvBullets">Bullet Points (One per line)</label>
+          <textarea id="srvBullets" rows="3" placeholder="Bullet Item 1&#10;Bullet Item 2"></textarea>
+        </div>
+        <div class="form-group">
+          <label><input type="checkbox" id="srvFeatured"> Featured Service</label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('serviceModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Service</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Testimonial Modal -->
+  <div id="testimonialModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="testModalTitle">Add Testimonial</h2>
+        <span class="close-modal" onclick="closeModal('testimonialModal')">&times;</span>
+      </div>
+      <form id="testimonialForm">
+        <input type="hidden" id="testId">
+        <div class="form-row">
+          <div class="form-group col-6">
+            <label for="testAuthor">Client Name</label>
+            <input type="text" id="testAuthor" required>
+          </div>
+          <div class="form-group col-6">
+            <label for="testPosition">Position / Company</label>
+            <input type="text" id="testPosition" placeholder="e.g. Homeowner, Director" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="testRating">Star Rating (1 - 5)</label>
+          <select id="testRating">
+            <option value="5">5 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="2">2 Stars</option>
+            <option value="1">1 Star</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="testQuote">Quote Content</label>
+          <textarea id="testQuote" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label><input type="checkbox" id="testApproved" checked> Instantly Approved</label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('testimonialModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Testimonial</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Announcement Modal -->
+  <div id="announcementModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="annModalTitle">Create Announcement</h2>
+        <span class="close-modal" onclick="closeModal('announcementModal')">&times;</span>
+      </div>
+      <form id="announcementForm">
+        <input type="hidden" id="annId">
+        <div class="form-group">
+          <label for="annMessage">Announcement Message</label>
+          <textarea id="annMessage" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="annLink">Redirect Link (Optional)</label>
+          <input type="url" id="annLink" placeholder="e.g. https://bluepeakbuilderscorp.com/promo">
+        </div>
+        <div class="form-group">
+          <label><input type="checkbox" id="annActive" checked> Active Banner</label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('announcementModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Announcement</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Blog Modal -->
+  <div id="blogModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="blogModalTitle">Write Article</h2>
+        <span class="close-modal" onclick="closeModal('blogModal')">&times;</span>
+      </div>
+      <form id="blogForm">
+        <input type="hidden" id="blogId">
+        <div class="form-group">
+          <label for="blogTitle">Article Title</label>
+          <input type="text" id="blogTitle" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-6">
+            <label for="blogCategory">Category</label>
+            <input type="text" id="blogCategory" placeholder="e.g. Industry News, Tips" required>
+          </div>
+          <div class="form-group col-6">
+            <label for="blogImage">Featured Image URL</label>
+            <input type="text" id="blogImage" placeholder="e.g. uploads/my-image.jpg">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="blogExcerpt">Short Excerpt Summary</label>
+          <textarea id="blogExcerpt" rows="2" placeholder="Brief 1-2 sentence preview" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="blogContent">Full Body Content (HTML allowed)</label>
+          <textarea id="blogContent" rows="8" required></textarea>
+        </div>
+        <div class="form-group">
+          <label><input type="checkbox" id="blogPublished"> Publish Post immediately</label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('blogModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Article</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="toast hidden">Settings Saved!</div>
+
+  <!-- ============ JAVASCRIPT ============ -->
+  <script src="admin.js"></script>
+</body>
+</html>
