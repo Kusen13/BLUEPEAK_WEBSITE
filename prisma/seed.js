@@ -4,176 +4,150 @@ const bcrypt = require('bcryptjs');
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Seeding database...');
+  console.log('🌱 Seeding Bluepeak CMS database...\n');
 
-  // 1. Create Admin
-  const hashedPassword = await bcrypt.hash('admin123', 10);
-  const admin = await prisma.admin.upsert({
-    where: { username: 'admin' },
-    update: {},
-    create: {
-      username: 'admin',
-      password: hashedPassword,
-    },
-  });
-  console.log(`Admin user created/verified: ${admin.username}`);
-
-  // 2. Default Website Settings
-  const settings = [
-    { key: 'hero_headline_line1', value: 'We Plan,' },
-    { key: 'hero_headline_line2', value: 'We Build Dreams Fulfilled' },
-    { key: 'hero_subheadline', value: 'Professional General Contracting & Design-Build Solutions.' },
-    { key: 'hero_image', value: 'images/hero-construction.jpg' },
-    { key: 'contact_email', value: 'bluepeakbuilderscorporation@gmail.com' },
-    { key: 'contact_phone', value: '09088515155' },
-    { key: 'contact_address', value: '8 Nicanor Don Manuel, Quezon City' },
-    { key: 'social_facebook', value: 'https://www.facebook.com/bluepeakbuilderscorp' },
-    { key: 'developer_name', value: 'Angelo Dela cruz' },
-    { key: 'stats_projects_count', value: '150+' },
-    { key: 'stats_clients_count', value: '120+' },
-    { key: 'stats_experience_years', value: '10+' },
-    { key: 'announcement_active', value: 'false' },
-    { key: 'announcement_text', value: 'Welcome to Bluepeak Builders Corporation CMS Website!' },
-  ];
-
-  for (const s of settings) {
-    await prisma.websiteSettings.upsert({
-      where: { key: s.key },
-      update: { value: s.value },
-      create: s,
+  // ──────────────────────────────────────────
+  // 1. DEFAULT ADMIN USER
+  // ──────────────────────────────────────────
+  const existingAdmin = await prisma.admin.findFirst();
+  if (!existingAdmin) {
+    const hashedPassword = await bcrypt.hash('bluepeak2026', 10);
+    await prisma.admin.create({
+      data: {
+        username: 'bluepeakadmin',
+        password: hashedPassword
+      }
     });
+    console.log('✅ Admin user created:');
+    console.log('   Username : bluepeakadmin');
+    console.log('   Password : bluepeak2026');
+  } else {
+    console.log('ℹ️  Admin user already exists — skipping.');
   }
-  console.log('Settings seeded.');
 
-  // 3. Projects
-  const projects = [
-    {
-      title: 'JLC Building',
-      category: 'commercial',
-      beforeImage: 'images/JLC-building-before.JPG',
-      afterImage: 'images/JLC-building.JPG',
-      description: 'Executed structural development and sleek commercial building finishes, delivering high-efficiency office spaces and a premium exterior design.',
-      duration: 'Aug 2024 – Nov 2025 (15 Months)',
-      status: 'Completed',
-      order: 1,
-    },
-    {
-      title: 'Lucban Residential',
-      category: 'residential',
-      beforeImage: 'images/lucban-residential-before.JPG',
-      afterImage: 'images/lucban-residential-after.JPG',
-      description: 'Crafted a high-end, contemporary custom residential residence utilizing premium finishes, spacious layout planning, and durable modern framing.',
-      duration: 'Jan 2025 – Sep 2025 (9 Months)',
-      status: 'Completed',
-      order: 2,
-    },
-    {
-      title: 'Lolly Inn',
-      category: 'renovation',
-      beforeImage: 'images/LOLLY-INN-before.jpg',
-      afterImage: 'images/LOLLY-INN-after.jpg',
-      description: 'Completed full exterior and interior renovation, restoring structural integrity and applying premium updates to this beautiful commercial hospitality building.',
-      duration: 'Feb 2025 – Nov 2025 (9 Months)',
-      status: 'Completed',
-      order: 3,
-    },
+  // ──────────────────────────────────────────
+  // 2. DEFAULT WEBSITE SETTINGS
+  // ──────────────────────────────────────────
+  const defaultSettings = [
+    { key: 'hero_headline_line1',    value: 'Building Reliability,' },
+    { key: 'hero_headline_line2',    value: 'One Structure at a Time.' },
+    { key: 'hero_subheadline',       value: 'Bluepeak Builders Corp. delivers premium construction and renovation services across the Philippines with precision, integrity, and excellence.' },
+    { key: 'contact_email',          value: 'info@bluepeakbuilderscorp.com' },
+    { key: 'contact_phone',          value: '+63 917 123 4567' },
+    { key: 'contact_address',        value: 'Quezon City, Metro Manila, Philippines' },
+    { key: 'social_facebook',        value: 'https://facebook.com/bluepeakbuilderscorp' },
+    { key: 'developer_name',         value: 'Bluepeak Digital Team' },
+    { key: 'stats_projects_count',   value: '150+' },
+    { key: 'stats_clients_count',    value: '200+' },
+    { key: 'stats_experience_years', value: '10+' }
   ];
 
-  for (const p of projects) {
-    const existing = await prisma.project.findFirst({ where: { title: p.title } });
+  let settingsCreated = 0;
+  for (const setting of defaultSettings) {
+    const existing = await prisma.websiteSettings.findUnique({ where: { key: setting.key } });
     if (!existing) {
-      await prisma.project.create({ data: p });
+      await prisma.websiteSettings.create({ data: setting });
+      settingsCreated++;
     }
   }
-  console.log('Projects seeded.');
+  console.log(`✅ Website settings seeded (${settingsCreated} new entries).`);
 
-  // 4. Testimonials
-  const testimonials = [
-    {
-      author: 'Robert Chen',
-      position: 'Property Owner',
-      quote: 'Bluepeak Builders delivered our project on time and exactly within our target budget. Their focus on structural durability, site safety, and clear communication made the construction process extremely smooth.',
-      rating: 5,
-    },
-    {
-      author: 'Maria Torres',
-      position: 'Commercial Developer',
-      quote: 'Their design and build solution was exactly what we needed. They managed the entire design phase, permit processing, and construction execution flawlessly, keeping us updated at every single milestone.',
-      rating: 5,
-    },
-    {
-      author: 'Jonathan Diaz',
-      position: 'Business Owner',
-      quote: 'Professionalism, transparency, and top-tier craftsmanship. Bluepeak Builders Corp. renovated our office headquarters and exceeded our expectations with their attention to detail and modern style.',
-      rating: 5,
-    },
-  ];
+  // ──────────────────────────────────────────
+  // 3. SAMPLE SERVICES
+  // ──────────────────────────────────────────
+  const existingServices = await prisma.service.count();
+  if (existingServices === 0) {
+    const services = [
+      {
+        name: 'Commercial Construction',
+        icon: 'fas fa-building',
+        description: 'Full-scale commercial building construction for offices, retail, and mixed-use developments.',
+        isFeatured: true,
+        bullets: JSON.stringify(['Design & Build', 'Structural Engineering', 'Project Management']),
+        order: 1
+      },
+      {
+        name: 'Residential Construction',
+        icon: 'fas fa-home',
+        description: 'Custom residential homes and subdivisions built to the highest quality standards.',
+        isFeatured: true,
+        bullets: JSON.stringify(['Custom Home Design', 'Budget Planning', 'Quality Materials']),
+        order: 2
+      },
+      {
+        name: 'Renovation & Fit-Out',
+        icon: 'fas fa-paint-roller',
+        description: 'Complete interior and exterior renovation services for existing structures.',
+        isFeatured: true,
+        bullets: JSON.stringify(['Interior Renovation', 'Facade Upgrades', 'Space Planning']),
+        order: 3
+      },
+      {
+        name: 'Infrastructure Projects',
+        icon: 'fas fa-road',
+        description: 'Roads, bridges, drainage systems and public utility infrastructure construction.',
+        isFeatured: false,
+        bullets: JSON.stringify(['Road Construction', 'Drainage Systems', 'Bridge Works']),
+        order: 4
+      }
+    ];
 
-  for (const t of testimonials) {
-    const existing = await prisma.testimonial.findFirst({ where: { author: t.author } });
-    if (!existing) {
-      await prisma.testimonial.create({ data: t });
-    }
-  }
-  console.log('Testimonials seeded.');
-
-  // 5. Services
-  const services = [
-    {
-      name: 'General Contracting & Construction',
-      icon: 'fas fa-cubes',
-      description: 'From groundbreaking to the final coat of paint, we manage every phase of the construction process. Our team ensures that all structural components meet international safety standards and local building codes.',
-      bullets: JSON.stringify([
-        'Residential Projects: Custom-built homes, townhouses, and condominium developments.',
-        'Commercial Buildings: Office spaces, retail hubs, showrooms, and mixed-use structures.'
-      ]),
-      order: 1,
-    },
-    {
-      name: 'Design & Build Solutions',
-      icon: 'fas fa-drafting-compass',
-      description: 'We offer a streamlined "Design-Build" approach that integrates architectural design and construction services under one roof. This minimizes communication gaps, reduces project timelines, and provides clients with a single point of accountability.',
-      bullets: JSON.stringify([
-        'Conceptual Planning & Blueprints',
-        'Interior Fit-outs and Space Planning'
-      ]),
-      order: 2,
-    },
-    {
-      name: 'Project Management & Consultancy',
-      icon: 'fas fa-tasks',
-      description: 'For clients who already have a design team, we step in as professional project managers. We oversee subcontractors, manage procurement, and maintain strict quality control to ensure the project stays on budget and on schedule.',
-      bullets: JSON.stringify([
-        'Cost Estimation & Quantity Surveying',
-        'Site Supervision & Safety Monitoring'
-      ]),
-      order: 3,
-    },
-    {
-      name: 'Civil Works & Infrastructure',
-      icon: 'fas fa-road',
-      description: 'Beyond vertical structures, Bluepeak Builders Corp. handles essential horizontal construction and land development projects.',
-      bullets: JSON.stringify([
-        'Site Clearing & Earthworks',
-        'Pavements and Drainage Systems'
-      ]),
-      order: 4,
-    },
-  ];
-
-  for (const s of services) {
-    const existing = await prisma.service.findFirst({ where: { name: s.name } });
-    if (!existing) {
+    for (const s of services) {
       await prisma.service.create({ data: s });
     }
+    console.log(`✅ ${services.length} sample services seeded.`);
+  } else {
+    console.log(`ℹ️  Services already exist — skipping.`);
   }
-  console.log('Services seeded.');
-  console.log('Database seeding completed successfully!');
+
+  // ──────────────────────────────────────────
+  // 4. SAMPLE TESTIMONIALS
+  // ──────────────────────────────────────────
+  const existingTestimonials = await prisma.testimonial.count();
+  if (existingTestimonials === 0) {
+    const testimonials = [
+      {
+        author: 'Maria Santos',
+        position: 'Homeowner, Quezon City',
+        rating: 5,
+        quote: 'Bluepeak Builders transformed our dream home into reality. Their team was professional, on time, and the quality exceeded our expectations. Highly recommended!',
+        isApproved: true
+      },
+      {
+        author: 'Roberto Dela Cruz',
+        position: 'CEO, DLC Holdings',
+        rating: 5,
+        quote: 'We contracted Bluepeak for our commercial building project and they delivered outstanding results. Their project management and construction quality is world-class.',
+        isApproved: true
+      },
+      {
+        author: 'Jennifer Lim',
+        position: 'Property Developer',
+        rating: 5,
+        quote: 'Excellent craftsmanship and attention to detail. Bluepeak handled our renovation project flawlessly — on budget and ahead of schedule.',
+        isApproved: true
+      }
+    ];
+
+    for (const t of testimonials) {
+      await prisma.testimonial.create({ data: t });
+    }
+    console.log(`✅ ${testimonials.length} sample testimonials seeded.`);
+  } else {
+    console.log(`ℹ️  Testimonials already exist — skipping.`);
+  }
+
+  console.log('\n🎉 Database seeding complete!');
+  console.log('\n📋 Admin Login Credentials:');
+  console.log('   URL      : http://localhost:5000/admin');
+  console.log('   Username : bluepeakadmin');
+  console.log('   Password : bluepeak2026');
+  console.log('\nChange your password after first login.\n');
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error('❌ Seeding error:', e.message);
     process.exit(1);
   })
   .finally(async () => {
