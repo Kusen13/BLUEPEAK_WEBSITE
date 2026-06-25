@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard — Bluepeak Builders Corp.</title>
-  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="/admin/admin.css">
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- FontAwesome Icons -->
@@ -16,7 +16,7 @@
   <div id="loginContainer" class="login-wrapper">
     <div class="login-card">
       <div class="login-header">
-        <img src="../images/BLUEPEAK LANDSCAPE LOGO.png" alt="Bluepeak Logo" class="login-logo">
+        <img src="/images/BLUEPEAK LANDSCAPE LOGO.png" alt="Bluepeak Logo" class="login-logo">
         <h2>CMS Administration</h2>
         <p>Please enter your credentials to login</p>
       </div>
@@ -37,10 +37,12 @@
 
   <!-- ============ MAIN DASHBOARD CONTAINER ============ -->
   <div id="dashboardContainer" class="dashboard-wrapper hidden">
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-brand">
-        <img src="../images/BLUEPEAK LANDSCAPE LOGO.png" alt="Bluepeak Logo">
+        <img src="/images/BLUEPEAK LANDSCAPE LOGO.png" alt="Bluepeak Logo">
         <span>Admin Panel</span>
       </div>
       <nav class="sidebar-menu">
@@ -67,10 +69,13 @@
     <main class="main-content">
       <!-- Topbar Header -->
       <header class="topbar">
-        <h1 id="pageTitle">Dashboard Overview</h1>
+        <div class="topbar-left">
+          <button id="sidebarToggle" class="btn-sidebar-toggle"><i class="fa fa-bars"></i></button>
+          <h1 id="pageTitle">Dashboard Overview</h1>
+        </div>
         <div class="topbar-actions">
-          <button id="changePassBtn" class="btn btn-secondary"><i class="fa fa-key"></i> Change Password</button>
-          <a href="/" target="_blank" class="btn btn-primary"><i class="fa fa-external-link-alt"></i> View Website</a>
+          <button id="changePassBtn" class="btn btn-secondary"><i class="fa fa-key"></i> <span class="btn-text">Change Password</span></button>
+          <a href="/" target="_blank" class="btn btn-primary"><i class="fa fa-external-link-alt"></i> <span class="btn-text">View Site</span></a>
         </div>
       </header>
 
@@ -329,10 +334,10 @@
       <!-- TAB 7: MEDIA LIBRARY -->
       <section id="tab-media" class="tab-panel hidden">
         <div class="panel-header">
-          <h2>Media & Image Uploads</h2>
-          <form id="mediaUploadForm" style="display: flex; gap: 10px; align-items: center;">
+          <h2>Media &amp; Image Uploads</h2>
+          <form id="mediaUploadForm">
             <input type="file" id="mediaFileInput" accept="image/*" required>
-            <button type="submit" class="btn btn-primary"><i class="fa fa-upload"></i> Upload Image</button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-upload"></i> <span>Upload Image</span></button>
           </form>
         </div>
         <div class="media-grid" id="mediaLibraryGrid">
@@ -646,6 +651,6 @@
   <div id="toast" class="toast hidden">Settings Saved!</div>
 
   <!-- ============ JAVASCRIPT ============ -->
-  <script src="admin.js"></script>
+  <script src="/admin/admin.js"></script>
 </body>
 </html>

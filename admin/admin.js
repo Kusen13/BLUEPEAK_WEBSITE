@@ -65,6 +65,23 @@ function setupEventListeners() {
   // Password Change Button & Form
   document.getElementById('changePassBtn').addEventListener('click', () => openModal('changePassModal'));
   document.getElementById('changePasswordForm').addEventListener('submit', changePassword);
+
+  // Sidebar Toggle for Mobile Devices
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  const sidebar = document.querySelector('.sidebar');
+  
+  if (sidebarToggle && sidebar && sidebarOverlay) {
+    sidebarToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      sidebarOverlay.classList.toggle('active');
+    });
+    
+    sidebarOverlay.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      sidebarOverlay.classList.remove('active');
+    });
+  }
 }
 
 // Token Verification
@@ -179,6 +196,14 @@ function switchTab(tabName) {
       panel.classList.add('hidden');
     }
   });
+
+  // Close sidebar on mobile
+  const sidebar = document.querySelector('.sidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  if (sidebar && sidebarOverlay) {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('active');
+  }
 
   // Set header title
   const titleMap = {
